@@ -1,0 +1,44 @@
+{
+    "name": "nft_query",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@emotion/cache": "^11.10.5",
+        "@emotion/react": "^11.10.5",
+        "@emotion/server": "^11.10.0",
+        "@emotion/styled": "^11.10.5",
+        "@mui/icons-material": "^5.10.9",
+        "@mui/material": "^5.10.13",
+        "@mui/styles": "^5.10.10",
+        "@reduxjs/toolkit": "^1.9.0",
+        "@types/node": "18.11.9",
+        "@types/react": "18.0.25",
+        "@types/react-dom": "18.0.8",
+        "eslint": "8.27.0",
+        "eslint-config-next": "13.0.2",
+        "lodash": "^4.17.21",
+        "moment": "^2.29.4",
+        "next": "13.0.2",
+        "next-redux-wrapper": "^8.0.0",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "react-icons": "^4.6.0",
+        "react-redux": "^8.0.5",
+        "redux": "^4.2.0",
+        "redux-devtools-extension": "^2.13.9",
+        "redux-logger": "^3.0.6",
+        "redux-persist": "^6.0.0",
+        "redux-thunk": "^2.4.2",
+        "typescript": "4.8.4"
+    },
+    "devDependencies": {
+        "@types/lodash": "^4.14.188",
+        "@types/redux-logger": "^3.0.9"
+    }
+}
