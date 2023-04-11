@@ -2,7 +2,6 @@ import * as React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import createEmotionServer from "@emotion/server/create-instance";
 import createEmotionCache from "../utils/createEmtotionCache";
-import Script from "next/script";
 
 export default class MyDocument extends Document {
      render() {
@@ -13,16 +12,37 @@ export default class MyDocument extends Document {
                               rel="stylesheet"
                               href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
                          />
-                         <link
+                         {/* <link
                               href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
                               rel="stylesheet"
                               integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
                               crossOrigin="anonymous"
-                         />
-                         <Script
-                              src="https://kit.fontawesome.com/e20sdfsd9.js"
+                         /> */}
+                         <link
+                              rel="stylesheet"
+                              href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.css"
+                         ></link>
+                         <link
+                              rel="stylesheet"
+                              href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"
+                              integrity="sha384-Tv5i09RULyHKMwX0E8wJUqSOaXlyu3SQxORObAI08iUwIalMmN5L6AvlPX2LMoSE"
                               crossOrigin="anonymous"
-                         ></Script>
+                         />
+                         <link
+                              rel="stylesheet"
+                              href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"
+                              integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7"
+                              crossOrigin="anonymous"
+                         />
+                         <link
+                              href="https://cdn.jsdelivr.net/npm/superfish@1.7.10/dist/css/superfish.min.css"
+                              rel="stylesheet"
+                         />
+                         {/* <script
+                              src="https://code.jquery.com/jquery-3.6.4.min.js"
+                              integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+                              crossOrigin="anonymous"
+                         ></script> */}
                     </Head>
                     <body>
                          <Main />
