@@ -14,6 +14,7 @@ import "../styles/bootstrap.css";
 import "../styles/animate.css";
 import "../styles/select2.css";
 import "../styles/style.css";
+import "../styles/font-awesome.css";
 
 const clientSideEmotionCache = createEmotionCache();
 interface MyAppProps extends AppProps {
