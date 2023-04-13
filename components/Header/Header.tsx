@@ -11,7 +11,9 @@ export const Header = () => {
                          {/*<source type="video/webm" src="video/video.webm" />*/}
                     </video>
                </div>
-               <Scheduler />
+               <div id="front_tabs">
+                    <Scheduler />
+               </div>
           </>
      );
 };

@@ -4,6 +4,7 @@ import React, { FC } from "react";
 import { useNavStyles } from "./styles";
 import Image from "next/image";
 import logo from "../../assets/images/logo1.png";
+import Link from "next/link";
 
 export const Nav: FC<any> = () => {
      const classes = useNavStyles();
@@ -14,7 +15,7 @@ export const Nav: FC<any> = () => {
                          <div className="top2 clearfix">
                               <header>
                                    <div className="logo_wrapper">
-                                        <a href="index.html" className="logo">
+                                        <Link href="index.html" className="logo">
                                              <Image
                                                   style={{
                                                        width: 200,
@@ -25,7 +26,7 @@ export const Nav: FC<any> = () => {
                                                   alt=""
                                                   className="img-responsive"
                                              />
-                                        </a>
+                                        </Link>
                                    </div>
                               </header>
                               <div className="navbar navbar_ navbar-default">
@@ -43,87 +44,97 @@ export const Nav: FC<any> = () => {
                                    <div className="navbar-collapse navbar-collapse_ collapse">
                                         <ul className="nav navbar-nav sf-menu clearfix">
                                              <li className="active">
-                                                  <a href="index.html">Home</a>
+                                                  <Link href="/">Home</Link>
                                              </li>
                                              <li>
-                                                  <a href="about.html">About Us</a>
+                                                  <Link href="/aboutus">About Us</Link>
                                              </li>
                                              <li>
-                                                  <a href="gallery.html">Gallery</a>
+                                                  <Link href="gallery.html">Gallery</Link>
                                              </li>
                                              <li className="sub-menu sub-menu-1">
-                                                  <a href="#">
+                                                  <Link href="#">
                                                        Pages
                                                        <em />
-                                                  </a>
+                                                  </Link>
                                                   <ul>
                                                        <li>
-                                                            <a href="flights.html">Flights</a>
-                                                            <ul>
+                                                            <Link href="/booking/lists/flight">
+                                                                 Flights
+                                                            </Link>
+                                                            <ul style={{ marginLeft: "-4px" }}>
                                                                  <li>
-                                                                      <a href="search-flights.html">
+                                                                      <Link href="/search/flights">
                                                                            Search Flights
-                                                                      </a>
+                                                                      </Link>
                                                                  </li>
                                                                  <li>
-                                                                      <a href="booking-flights.html">
+                                                                      <Link href="booking-flights.html">
                                                                            Booking Flights
-                                                                      </a>
+                                                                      </Link>
                                                                  </li>
                                                                  <li>
-                                                                      <a href="booking-flights-page.html">
+                                                                      <Link href="booking-flights-page.html">
                                                                            Flights Checkout
-                                                                      </a>
+                                                                      </Link>
                                                                  </li>
                                                             </ul>
                                                        </li>
                                                        <li>
-                                                            <a href="hotels.html">Hotels</a>
-                                                            <ul>
+                                                            <Link href="/booking/lists/hotel">
+                                                                 Hotels
+                                                            </Link>
+                                                            <ul style={{ marginLeft: "-4px" }}>
                                                                  <li>
-                                                                      <a href="search-hotel.html">
+                                                                      <Link href="/search/hotels">
                                                                            Search Hotels
-                                                                      </a>
+                                                                      </Link>
                                                                  </li>
                                                                  <li>
-                                                                      <a href="booking-hotel.html">
+                                                                      <Link href="booking-hotel.html">
                                                                            Booking Hotel
-                                                                      </a>
+                                                                      </Link>
                                                                  </li>
                                                                  <li>
-                                                                      <a href="booking-hotel-page.html">
+                                                                      <Link href="booking-hotel-page.html">
                                                                            Hotel Reservation
-                                                                      </a>
+                                                                      </Link>
                                                                  </li>
                                                             </ul>
                                                        </li>
                                                   </ul>
                                              </li>
                                              <li className="sub-menu sub-menu-1">
-                                                  <a href="#">
+                                                  <Link href="#">
                                                        Blog
                                                        <em />
-                                                  </a>
+                                                  </Link>
                                                   <ul>
                                                        <li>
-                                                            <a href="blog.html">Right Blog</a>
+                                                            <Link href="blog.html">Right Blog</Link>
                                                        </li>
                                                        <li>
-                                                            <a href="left-blog.html">Left Blog</a>
+                                                            <Link href="left-blog.html">
+                                                                 Left Blog
+                                                            </Link>
                                                        </li>
                                                        <li>
-                                                            <a href="post.html">Right Post</a>
+                                                            <Link href="post.html">Right Post</Link>
                                                        </li>
                                                        <li>
-                                                            <a href="left-post.html">Left Post</a>
+                                                            <Link href="left-post.html">
+                                                                 Left Post
+                                                            </Link>
                                                        </li>
                                                        <li>
-                                                            <a href="full-post.html">Full Post</a>
+                                                            <Link href="full-post.html">
+                                                                 Full Post
+                                                            </Link>
                                                        </li>
                                                   </ul>
                                              </li>
                                              <li>
-                                                  <a href="contacts.html">Contacts</a>
+                                                  <Link href="contacts.html">Contacts</Link>
                                              </li>
                                         </ul>
                                    </div>

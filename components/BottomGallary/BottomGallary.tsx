@@ -6,8 +6,8 @@ export const BottomGallary = () => {
           <div id="partners">
                <div className="container">
                     <div className="row">
-                         {images.map((image) => (
-                              <div className="col-sm-4 col-md-2 col-xs-6">
+                         {images.map((image, idx) => (
+                              <div className="col-sm-4 col-md-2 col-xs-6" key={idx}>
                                    <div className="thumb1 animated">
                                         <div className="thumbnail clearfix">
                                              <a href="#">

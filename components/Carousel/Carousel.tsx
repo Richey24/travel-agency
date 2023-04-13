@@ -18,8 +18,8 @@ export const Carousel: FC<CarouselProps> = ({ data, card: Card }) => {
                                              <div className="carousel main">
                                                   <ul>
                                                        {data.map((cardItem, idx) => (
-                                                            <li>
-                                                                 <Card {...cardItem} key={idx} />
+                                                            <li key={idx}>
+                                                                 <Card {...cardItem} />
                                                             </li>
                                                        ))}
                                                   </ul>

@@ -1,0 +1,3 @@
+interface SchedulerProps {
+     initialTab?: number;
+}

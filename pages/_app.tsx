@@ -15,6 +15,7 @@ import "../styles/animate.css";
 import "../styles/select2.css";
 import "../styles/style.css";
 import "../styles/font-awesome.css";
+// import "../styles/smoothness/jquery-ui-1.10.0.custom.css";
 
 const clientSideEmotionCache = createEmotionCache();
 interface MyAppProps extends AppProps {
@@ -23,6 +24,7 @@ interface MyAppProps extends AppProps {
 import { StylesProvider, createGenerateClassName } from "@mui/styles";
 import { useEffect } from "react";
 import Script from "next/script";
+import { useRouter } from "next/router";
 
 const generateClassName = createGenerateClassName({
      productionPrefix: "c",
@@ -33,9 +35,14 @@ export default function App({
      pageProps,
      emotionCache = clientSideEmotionCache,
 }: MyAppProps) {
+     const router = useRouter();
+
      useEffect(() => {
-          // require("bootstrap/dist/js/bootstrap.bundle.min.js");
-     }, []);
+          const script = document.createElement("script");
+          script.src = "/loadedJs/script.js";
+          script.async = true;
+          document.body.appendChild(script);
+     }, [router.asPath]);
 
      return (
           <StylesProvider generateClassName={generateClassName}>
@@ -88,10 +95,7 @@ export default function App({
                                         src="https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"
                                         defer
                                    ></script>
-                                   <script
-                                        src="https://cdn.jsdelivr.net/npm/superfish@1.7.10/dist/js/superfish.min.js"
-                                        defer
-                                   ></script>
+
                                    <script
                                         src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/16.1.3/smooth-scroll.js"
                                         integrity="sha512-vfE8OCUETP038fi2pHsLeJC/5xd48FyLsATJLulbdsCRBXgRWxA+0K9he4GClcPjT24vMJk1mFMFbjYS9J7NpA=="
@@ -116,12 +120,7 @@ export default function App({
                                         crossOrigin="anonymous"
                                         referrerPolicy="no-referrer"
                                    ></script>
-                                   <script
-                                        src="https://cdnjs.cloudflare.com/ajax/libs/superfish/1.7.10/js/superfish.min.js"
-                                        integrity="sha512-gdhtclwUZCkHSSb/Q79++RssWL4eDLKHO15TC7kR/XnvlNyzcvZDRLn4BIuxadMWGIxPuj/IbFBInMpYockVCA=="
-                                        crossOrigin="anonymous"
-                                        referrerPolicy="no-referrer"
-                                   ></script>
+
                                    <script
                                         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.4.1/jquery-migrate.js"
                                         integrity="sha512-FruHrHbK/kxrB8bV0sXKTaPazRf3Nz5gFVtdV0INaL+XZ6ehZtcuiGe8ZcJkvOcnPNBcJzZFAnkgdl7PmepNnA=="
@@ -140,6 +139,10 @@ export default function App({
                                         referrerPolicy="no-referrer"
                                    ></Script> */}
                                    <Script
+                                        src="/loadedJs/superfish.js"
+                                        crossOrigin="anonymous"
+                                   ></Script>
+                                   <Script
                                         src="/loadedJs/jquery.ui.totop.js"
                                         crossOrigin="anonymous"
                                         defer
@@ -152,7 +155,6 @@ export default function App({
                                    <Script
                                         src="/loadedJs/script.js"
                                         crossOrigin="anonymous"
-                                        defer
                                    ></Script>{" "}
                                    <Script
                                         src="/loadedJs/select2.js"

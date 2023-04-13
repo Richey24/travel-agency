@@ -34,10 +34,6 @@ export default class MyDocument extends Document {
                               integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7"
                               crossOrigin="anonymous"
                          />
-                         <link
-                              href="https://cdn.jsdelivr.net/npm/superfish@1.7.10/dist/css/superfish.min.css"
-                              rel="stylesheet"
-                         />
                          {/* <script
                               src="https://code.jquery.com/jquery-3.6.4.min.js"
                               integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
