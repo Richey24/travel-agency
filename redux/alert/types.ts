@@ -1,0 +1,11 @@
+const ALERT_SUCCESS = "ALERT_SUCCESS";
+const ALERT_FAILURE = "ALERT_FAILURE";
+const ALERT_INFO = "ALERT_INFO";
+const ALERT_CLEAR = "ALERT_CLEAR";
+
+export type AlertActionProps = {
+    type: "ALERT_SUCCESS" | "ALERT_FAILURE" | "ALERT_INFO" | "ALERT_CLEAR";
+    payload: string;
+};
+
+export { ALERT_SUCCESS, ALERT_INFO, ALERT_FAILURE, ALERT_CLEAR };
