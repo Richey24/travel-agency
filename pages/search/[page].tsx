@@ -18,10 +18,8 @@ const Search = () => {
           <div className="not-front page-post page-about">
                <div id="main">
                     <Breadcumbs paths={paths} />
-
-                    {/* <Pagebanner /> */}
                     <MapContainer />
-                    <FilterContainer />
+                    {/* <FilterContainer /> */}
                </div>
           </div>
      );

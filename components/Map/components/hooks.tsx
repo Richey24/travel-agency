@@ -12,6 +12,7 @@ export const usePointsMap = () => {
           markerClicked: (title: string, coordinates: number[], setLoading: any) => void,
      ) => {
           ref.current = document.createElement("div");
+          ref.current.classList.add(feature?.properties.title.split(" ").join("_"));
           // Render a Marker Component on our new DOM node
           const pointerRoot = ReactDOM.createRoot(ref.current);
 
@@ -25,8 +26,13 @@ export const usePointsMap = () => {
           );
 
           // Create a Mapbox Marker at our new DOM node
-          new mapboxgl.Marker(ref.current)
+          const marker = new mapboxgl.Marker(ref.current)
                .setLngLat(feature.geometry.coordinates)
                .addTo(map.current);
+
+          return {
+               feature,
+               marker,
+          };
      };
 };

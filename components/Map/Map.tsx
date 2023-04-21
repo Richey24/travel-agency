@@ -68,9 +68,10 @@ export const Map = () => {
           },
      });
      const map = useRef<any>(null);
+     const [markers, setMarkers] = useState<any[]>([]);
      const appState = useSelector((state: RootStateProps) => state.appStateReducer);
 
-     console.log("appState", appState);
+     // console.log("appState", appState, markers);
      useEffect(() => {
           if (map.current) return; // initialize map only once
           map.current = new mapboxgl.Map({
@@ -86,17 +87,34 @@ export const Map = () => {
           });
 
           locations.features
-               .filter((feature) =>
-                    feature?.properties.title
-                         .toLowerCase()
-                         .startsWith(appState.mapParams.name?.toLowerCase()),
-               )
+               // .filter((feature) =>
+               //      feature?.properties.title
+               //           .toLowerCase()
+               //           .startsWith(appState.mapParams.name?.toLowerCase()),
+               // )
                .forEach((feature) => {
-                    pointsMap(map, feature, markerClicked);
+                    setMarkers((markers) => [...markers, pointsMap(map, feature, markerClicked)]);
                });
           map.current.addControl(new mapboxgl.NavigationControl(), "bottom-right");
           map.current.addControl(geocoder, "top-right");
-     }, [appState.mapParams]);
+     }, []);
+
+     useEffect(() => {
+          markers.forEach((pointer, idx) => {
+               if (
+                    !pointer.feature?.properties.title
+                         .toLowerCase()
+                         .startsWith(appState.mapParams.name?.toLowerCase())
+               ) {
+                    const captured = document.querySelector(
+                         `.${pointer.feature?.properties.title.split(" ").join("_")}`,
+                    );
+                    captured?.parentNode?.removeChild(captured);
+               } else {
+                    pointsMap(map, pointer.feature, markerClicked);
+               }
+          });
+     }, [appState.mapParams.name]);
 
      useEffect(() => {
           if (!map.current) return;

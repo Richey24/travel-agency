@@ -15,7 +15,7 @@ export const Nav: FC<any> = () => {
      const classes = useNavStyles();
      const router = useRouter();
      const currentRoute = useSelector((state: RootStateProps) => state.appStateReducer?.routeName);
-     console.log("routeName", currentRoute);
+
      return (
           <div className={classes.root}>
                <div className="top2_wrapper">
@@ -67,41 +67,37 @@ export const Nav: FC<any> = () => {
                                                                  <em />
                                                             </Link>
                                                             <ul>
-                                                                 {nav.subMenu?.map((sub) => (
-                                                                      <>
-                                                                           <li>
-                                                                                <Link
-                                                                                     href={sub.path}
-                                                                                >
-                                                                                     {sub?.name}
-                                                                                </Link>
-                                                                                {(sub as any)
-                                                                                     ?.subMenu && (
-                                                                                     <ul>
-                                                                                          {(
-                                                                                               sub as any
-                                                                                          )?.subMenu?.map(
-                                                                                               (navMenu: {
-                                                                                                    path: string;
-                                                                                                    name: string;
-                                                                                               }) => (
-                                                                                                    <li>
-                                                                                                         <Link
-                                                                                                              href={
-                                                                                                                   navMenu?.path
-                                                                                                              }
-                                                                                                         >
-                                                                                                              {
-                                                                                                                   navMenu?.name
-                                                                                                              }
-                                                                                                         </Link>
-                                                                                                    </li>
-                                                                                               ),
-                                                                                          )}
-                                                                                     </ul>
-                                                                                )}
-                                                                           </li>
-                                                                      </>
+                                                                 {nav.subMenu?.map((sub, idx) => (
+                                                                      <li key={idx}>
+                                                                           <Link href={sub.path}>
+                                                                                {sub?.name}
+                                                                           </Link>
+                                                                           {(sub as any)
+                                                                                ?.subMenu && (
+                                                                                <ul>
+                                                                                     {(
+                                                                                          sub as any
+                                                                                     )?.subMenu?.map(
+                                                                                          (navMenu: {
+                                                                                               path: string;
+                                                                                               name: string;
+                                                                                          }) => (
+                                                                                               <li>
+                                                                                                    <Link
+                                                                                                         href={
+                                                                                                              navMenu?.path
+                                                                                                         }
+                                                                                                    >
+                                                                                                         {
+                                                                                                              navMenu?.name
+                                                                                                         }
+                                                                                                    </Link>
+                                                                                               </li>
+                                                                                          ),
+                                                                                     )}
+                                                                                </ul>
+                                                                           )}
+                                                                      </li>
                                                                  ))}
                                                             </ul>
                                                        </li>
@@ -120,101 +116,6 @@ export const Nav: FC<any> = () => {
                                                   ),
                                              )}
                                         </ul>
-                                        {/* <ul className="nav navbar-nav sf-menu clearfix">
-                                             <li className="active">
-                                                  <Link href="/">Home</Link>
-                                             </li>
-                                             <li>
-                                                  <Link href="/aboutus">About Us</Link>
-                                             </li>
-                                             <li>
-                                                  <Link href="gallery.html">Gallery</Link>
-                                             </li>
-                                             <li className="sub-menu sub-menu-1">
-                                                  <Link href="#">
-                                                       Pages
-                                                       <em />
-                                                  </Link>
-                                                  <ul>
-                                                       <li>
-                                                            <Link href="/booking/lists/flight">
-                                                                 Flights
-                                                            </Link>
-                                                            <ul>
-                                                                 <li>
-                                                                      <Link href="/search/flights">
-                                                                           Search Flights
-                                                                      </Link>
-                                                                 </li>
-                                                                 <li>
-                                                                      <Link href="booking-flights.html">
-                                                                           Booking Flights
-                                                                      </Link>
-                                                                 </li>
-                                                                 <li>
-                                                                      <Link href="booking-flights-page.html">
-                                                                           Flights Checkout
-                                                                      </Link>
-                                                                 </li>
-                                                            </ul>
-                                                       </li>
-                                                       <li>
-                                                            <Link href="/booking/lists/hotel">
-                                                                 Hotels
-                                                            </Link>
-                                                            <ul>
-                                                                 <li>
-                                                                      <Link href="/search/hotels">
-                                                                           Search Hotels
-                                                                      </Link>
-                                                                 </li>
-                                                                 <li>
-                                                                      <Link href="booking-hotel.html">
-                                                                           Booking Hotel
-                                                                      </Link>
-                                                                 </li>
-                                                                 <li>
-                                                                      <Link href="booking-hotel-page.html">
-                                                                           Hotel Reservation
-                                                                      </Link>
-                                                                 </li>
-                                                            </ul>
-                                                       </li>
-                                                  </ul>
-                                             </li>
-                                             <li className="sub-menu sub-menu-1">
-                                                  <Link href="#">
-                                                       Blog
-                                                       <em />
-                                                  </Link>
-                                                  <ul>
-                                                       <li>
-                                                            <Link href="blog.html">Right Blog</Link>
-                                                       </li>
-                                                       <li>
-                                                            <Link href="left-blog.html">
-                                                                 Left Blog
-                                                            </Link>
-                                                       </li>
-                                                       <li>
-                                                            <Link href="post.html">Right Post</Link>
-                                                       </li>
-                                                       <li>
-                                                            <Link href="left-post.html">
-                                                                 Left Post
-                                                            </Link>
-                                                       </li>
-                                                       <li>
-                                                            <Link href="full-post.html">
-                                                                 Full Post
-                                                            </Link>
-                                                       </li>
-                                                  </ul>
-                                             </li>
-                                             <li>
-                                                  <Link href="contacts.html">Contacts</Link>
-                                             </li>
-                                        </ul> */}
                                    </div>
                               </div>
                          </div>
