@@ -2,6 +2,7 @@ import React, { FC, useState } from "react";
 import { useSchedulerStyles } from "./styles";
 import CreatableSelect from "react-select/creatable";
 import { Button } from "@mui/material";
+import { SchedulerProps } from "./types";
 
 const tabs = ["flights", "hotels"];
 export const Scheduler: FC<SchedulerProps> = ({ initialTab, onClick }) => {
