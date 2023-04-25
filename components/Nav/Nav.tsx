@@ -23,17 +23,17 @@ export const Nav: FC<any> = () => {
                          <div className="top2 clearfix">
                               <header>
                                    <div className="logo_wrapper">
-                                        <Link href="index.html" className="logo">
-                                             <Image
-                                                  style={{
-                                                       width: 200,
-                                                       height: 50,
-                                                       marginTop: 20,
-                                                  }}
-                                                  src={logo}
-                                                  alt=""
-                                                  className="img-responsive"
-                                             />
+                                        <Link href="/">
+                                        <div
+                                             className={"logo"}
+                                             style={{
+                                                  width: 200,
+                                                  height: 50,
+                                                  marginTop: 20,
+                                             }}
+                                        >
+                                             <Image src={logo} alt="" className="img-responsive " />
+                                        </div>
                                         </Link>
                                    </div>
                               </header>
@@ -62,10 +62,7 @@ export const Nav: FC<any> = () => {
                                                             }`}
                                                             key={idx}
                                                        >
-                                                            <Link href="#">
-                                                                 {nav.name}
-                                                                 <em />
-                                                            </Link>
+                                                            <Link href="#">{nav.name}</Link>
                                                             <ul>
                                                                  {nav.subMenu?.map((sub, idx) => (
                                                                       <li key={idx}>

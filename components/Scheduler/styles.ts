@@ -1,5 +1,5 @@
-import { Theme } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { Theme, useTheme } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 export const useSchedulerStyles = makeStyles((theme: Theme) => ({
      container: {
@@ -7,14 +7,15 @@ export const useSchedulerStyles = makeStyles((theme: Theme) => ({
           display: "flex",
           alignItem: "center",
           justifyContent: "center",
+          border: "1px solid red",
      },
      root: {
-          width: "80%",
+          width: "90%",
      },
      form: {
           width: "100%",
           backgroundColor: "#fafafa",
-          padding: theme.spacing(4),
+          padding: "32px",
           display: "flex",
           alignItem: "flex-end",
           justifyContent: "space-between",
@@ -30,7 +31,7 @@ export const useSchedulerStyles = makeStyles((theme: Theme) => ({
           backgroundColor: "#00a99d",
           color: "#fff",
           fontWeight: 600,
-          padding: theme.spacing(1, 4),
+          padding: "8px 32px",
           cursor: "pointer",
           textTransform: "capitalize",
 
@@ -43,7 +44,7 @@ export const useSchedulerStyles = makeStyles((theme: Theme) => ({
           backgroundColor: "#fff",
           color: "#00a99d",
           fontWeight: 600,
-          padding: theme.spacing(1, 4),
+          padding: "8px 32px",
           cursor: "pointer",
           textTransform: "capitalize",
           "&:hover": {
@@ -74,7 +75,7 @@ export const useSchedulerStyles = makeStyles((theme: Theme) => ({
      searchBtn: {
           backgroundColor: "#00a99d",
           color: "#fff",
-          padding: theme.spacing(2, 5),
+          padding: "16px 40px",
           fontFamily: "Raleway",
           fontSize: 14,
           lineHeight: 1,

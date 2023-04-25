@@ -3,14 +3,27 @@ import { useSchedulerStyles } from "./styles";
 import CreatableSelect from "react-select/creatable";
 import { Button } from "@mui/material";
 import { SchedulerProps } from "./types";
+import Calendar from "react-calendar";
+import { Value } from "react-calendar/dist/cjs/shared/types";
 
 const tabs = ["flights", "hotels"];
 export const Scheduler: FC<SchedulerProps> = ({ initialTab, onClick }) => {
      const classes = useSchedulerStyles();
      const [currentTab, setTab] = useState(initialTab || 1);
+     const [dateRange, setDateRange] = useState(new Date());
+
+     const handleDateChange = (date: Value) => {};
 
      return (
           <>
+               <div>
+                    <Calendar
+                         onChange={(date) => handleDateChange(date)}
+                         // value={dateRange}
+                         // showDoubleView
+                         selectRange={true}
+                    />
+               </div>
                <div className="container">
                     <div className="tabs_wrapper tabs1_wrapper">
                          <div className="tabs tabs1">
@@ -321,7 +334,7 @@ export const Scheduler: FC<SchedulerProps> = ({ initialTab, onClick }) => {
                          </div>
                     </div>
                </div>
-               {/* <div className={classes.container}>
+               <div className={classes.container}>
                     <div className={classes.root}>
                          <div className={classes.tabContainer}>
                               {tabs?.map((tab, idx) => (
@@ -349,16 +362,14 @@ export const Scheduler: FC<SchedulerProps> = ({ initialTab, onClick }) => {
                                         placeholder={"Filter By Stars"}
                                    />
                               </div>
-                              <div className={classes.inputContainer}>
-                                   <label>Flying from:</label>
-                                   <CreatableSelect
-                                        options={[]}
-                                        // onChange={setSelectedBasalTemplate}
-                                        className={`react-select ${classes.select}`}
-                                        classNamePrefix="select"
-                                        placeholder={"Filter By Stars"}
+                              {/* <div className={classes.inputContainer}>
+                                   <label>Select Date Range:</label>
+                                   <Calendar
+                                        onChange={(date) => handleDateChange(date)}
+                                        value={dateRange}
+                                        showDoubleView
                                    />
-                              </div>
+                              </div> */}
 
                               <div className={classes.inputContainer}>
                                    <label>Flying from:</label>
@@ -375,7 +386,7 @@ export const Scheduler: FC<SchedulerProps> = ({ initialTab, onClick }) => {
                               </div>
                          </div>
                     </div>
-               </div> */}
+               </div>
           </>
      );
 };

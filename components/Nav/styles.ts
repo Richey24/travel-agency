@@ -1,5 +1,6 @@
 import { Theme } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "@mui/styles";
+
 
 export const useNavStyles = makeStyles((theme: Theme) => ({
      root: {},

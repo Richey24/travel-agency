@@ -5,9 +5,9 @@ export const useMapStyles = makeStyles((theme: Theme) => ({
      root: {
           height: "calc(100vh - 64px)",
           borderRadius: 20,
-          [theme.breakpoints.down("sm")]: {
-               height: "100%",
-          },
+          // [theme.breakpoints.down("sm")]: {
+          //      height: "100%",
+          // },
      },
      modalTitle: {
           margin: 0,
@@ -23,7 +23,7 @@ export const useMapStyles = makeStyles((theme: Theme) => ({
      modalTemperature: {
           fontSize: 14,
           fontWeight: 700,
-          marginTop: theme.spacing(3),
+          marginTop: theme.spacing?.(3),
      },
      iconContainer: {
           display: "flex",

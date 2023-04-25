@@ -1,5 +1,5 @@
 import { Theme } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "@mui/styles";
 
 export const useHotelFilterStyles = makeStyles((theme: Theme) => ({
      root: {

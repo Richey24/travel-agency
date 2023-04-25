@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Marker } from "../../Marker/Marker";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 export const usePointsMap = () => {
@@ -14,15 +14,16 @@ export const usePointsMap = () => {
           ref.current = document.createElement("div");
           ref.current.classList.add(feature?.properties.title.split(" ").join("_"));
           // Render a Marker Component on our new DOM node
-          const pointerRoot = ReactDOM.createRoot(ref.current);
+          // const pointerRoot = ReactDOM.createRoot(ref.current);
 
-          pointerRoot.render(
+          ReactDOM.render(
                <Marker
                     feature={feature}
                     onClick={(setLoading) =>
                          markerClicked(feature as any, feature.geometry.coordinates, setLoading)
                     }
                />,
+               ref.current,
           );
 
           // Create a Mapbox Marker at our new DOM node
