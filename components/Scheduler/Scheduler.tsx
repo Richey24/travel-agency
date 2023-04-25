@@ -5,33 +5,50 @@ import { Button } from "@mui/material";
 import { SchedulerProps } from "./types";
 import Calendar from "react-calendar";
 import { Value } from "react-calendar/dist/cjs/shared/types";
+import { MdFlight } from "react-icons/md";
+import { FaHotel } from "react-icons/fa";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { TfiControlForward, TfiControlBackward } from "react-icons/tfi";
+import moment from "moment";
 
-const tabs = ["flights", "hotels"];
+const tabs = [
+     {
+          name: "flights",
+          icon: (
+               <MdFlight
+                    style={{
+                         transform: "rotate(45deg)",
+                    }}
+                    size={25}
+               />
+          ),
+     },
+     { name: "hotels", icon: <FaHotel size={25} /> },
+];
+
 export const Scheduler: FC<SchedulerProps> = ({ initialTab, onClick }) => {
      const classes = useSchedulerStyles();
      const [currentTab, setTab] = useState(initialTab || 1);
-     const [dateRange, setDateRange] = useState(new Date());
+     const [dateRange, setDateRange] = useState<any[] | null>(null);
+     const [showCalendar, setShowCalendar] = useState(false);
 
-     const handleDateChange = (date: Value) => {};
+     const handleDateChange = (date: Value) => {
+          setDateRange(date as any[]);
+          setShowCalendar(false);
+     };
+
+     console.log("date", dateRange);
 
      return (
           <>
-               <div>
-                    <Calendar
-                         onChange={(date) => handleDateChange(date)}
-                         // value={dateRange}
-                         // showDoubleView
-                         selectRange={true}
-                    />
-               </div>
-               <div className="container">
+               {/* <div className="container">
                     <div className="tabs_wrapper tabs1_wrapper">
                          <div className="tabs tabs1">
                               {/* <div className={classes.tabContainer}>
                                    <div className={`${classes.tab}`}>Flights</div>
                                    <div className={`${classes.tab}`}>Hotel</div>
                               </div> */}
-                              <div className="tabs_tabs tabs1_tabs">
+               {/* <div className="tabs_tabs tabs1_tabs">
                                    <ul>
                                         <li
                                              className={`${initialTab === 1 ? "active" : ""} ${
@@ -52,8 +69,8 @@ export const Scheduler: FC<SchedulerProps> = ({ initialTab, onClick }) => {
                                              </a>
                                         </li>
                                    </ul>
-                              </div>
-                              <div className="tabs_content tabs1_content">
+                              </div> */}
+               {/* <div className="tabs_content tabs1_content">
                                    <div id="tabs-1">
                                         <form action="javascript:;" className="form1">
                                              <div className="row">
@@ -333,7 +350,8 @@ export const Scheduler: FC<SchedulerProps> = ({ initialTab, onClick }) => {
                               </div>
                          </div>
                     </div>
-               </div>
+               </div>  */}
+
                <div className={classes.container}>
                     <div className={classes.root}>
                          <div className={classes.tabContainer}>
@@ -347,7 +365,7 @@ export const Scheduler: FC<SchedulerProps> = ({ initialTab, onClick }) => {
                                         }
                                         onClick={() => setTab(idx + 1)}
                                    >
-                                        {tab}
+                                        {tab.icon} {tab.name}
                                    </div>
                               ))}
                          </div>
@@ -370,15 +388,46 @@ export const Scheduler: FC<SchedulerProps> = ({ initialTab, onClick }) => {
                                         showDoubleView
                                    />
                               </div> */}
-
                               <div className={classes.inputContainer}>
-                                   <label>Flying from:</label>
+                                   <label>Date Range:</label>
+                                   <input
+                                        className={classes.dateRangeInput}
+                                        onClick={() => setShowCalendar((prev) => !prev)}
+                                        defaultValue={
+                                             !dateRange
+                                                  ? "Start Date - End Date"
+                                                  : dateRange
+                                                         .map((date) =>
+                                                              moment(date).format("YYYY-MM-DD"),
+                                                         )
+                                                         .join(" - ")
+                                        }
+                                   />
+                                   {showCalendar && (
+                                        <div className={classes.calenderContainer}>
+                                             <Calendar
+                                                  onChange={(date) => handleDateChange(date)}
+                                                  // value={dateRange}
+                                                  showDoubleView
+                                                  selectRange={true}
+                                                  minDate={new Date()}
+                                                  className={classes.calendar}
+                                                  nextLabel={<IoIosArrowForward />}
+                                                  next2Label={<TfiControlForward />}
+                                                  prevLabel={<IoIosArrowBack />}
+                                                  prev2Label={<TfiControlBackward />}
+                                             />
+                                        </div>
+                                   )}
+                              </div>
+                              <div className={classes.inputContainer}>
+                                   <label>Adult:</label>
                                    <CreatableSelect
                                         options={[]}
                                         // onChange={setSelectedBasalTemplate}
                                         className={`react-select ${classes.select}`}
                                         classNamePrefix="select"
-                                        placeholder={"Filter By Stars"}
+                                        placeholder={"Room for 1 Adult"}
                                    />
                               </div>
                               <div className={classes.inputContainer}>
