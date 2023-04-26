@@ -31,7 +31,7 @@ export const useSchedulerStyles = makeStyles((theme: Theme) => ({
           gap: 4,
           marginBottom: 4,
      },
-     tab: {
+     activeTab: {
           backgroundColor: "#00a99d",
           color: "#fff",
           fontWeight: 600,
@@ -50,7 +50,7 @@ export const useSchedulerStyles = makeStyles((theme: Theme) => ({
                backgroundColor: "#06d0c2",
           },
      },
-     activeTab: {
+     tab: {
           gap: 16,
           fontSize: 16,
           backgroundColor: "#fff",
@@ -78,6 +78,7 @@ export const useSchedulerStyles = makeStyles((theme: Theme) => ({
           justifyContent: "flex-end",
           flexDirection: "column",
           position: "relative",
+          zIndex: 100,
 
           "& > label": {
                fontFamily: "Raleway",
@@ -118,7 +119,7 @@ export const useSchedulerStyles = makeStyles((theme: Theme) => ({
      },
      calenderContainer: {
           position: "absolute",
-          zIndex: 100,
+          zIndex: 100000,
           top: "calc(100% + 10px)",
      },
      calendar: {

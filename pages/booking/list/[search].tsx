@@ -30,7 +30,7 @@ const List = () => {
                     <Breadcumbs paths={paths} />
                     <Scheduler
                          initialTab={search === "flights" ? 1 : 2}
-                         onClick={handleRouteChange}
+                         onTabSwitch={handleRouteChange}
                     />
                     <ListContainer />
                </div>
