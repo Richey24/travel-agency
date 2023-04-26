@@ -4,8 +4,9 @@
      "private": true,
      "scripts": {
           "dev": "next",
-          "build": "next build && rm -rf ./.next/cache",
-          "start": "next start",
+          "build": "next build",
+          "start": "/home/site/wwwroot/node_modules/next/dist/bin/next",
+          "startLocal" : "next start",
           "lint": "next lint"
      },
      "dependencies": {
