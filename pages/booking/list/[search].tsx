@@ -7,6 +7,8 @@ import { ListContainer } from "../../../components/ListContainer/ListContainer";
 import { useSetRouteName } from "../../../redux/appState/hooks";
 import { useRouter } from "next/router";
 import { MapContainer } from "../../../components/MapContainer/MapContainer";
+import { Tabs } from "../../../components/Tabs/Tabs";
+import { LocationSearch } from "../../../components/Locations/Locations";
 const paths = [{ name: "Home", url: "/" }, { name: "Pages", url: "/" }, { name: "Hotels" }];
 
 const List = () => {
@@ -26,8 +28,8 @@ const List = () => {
           <div className="not-front page-pages page-hotels page-about">
                <div id="main">
                     <Pagebanner />
-                    {/* <MapContainer /> */}
                     <Breadcumbs paths={paths} />
+                    <Tabs />
                     <Scheduler
                          initialTab={search === "flights" ? 1 : 2}
                          onTabSwitch={handleRouteChange}

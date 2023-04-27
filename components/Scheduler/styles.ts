@@ -177,5 +177,9 @@ export const useSchedulerStyles = makeStyles((theme: Theme) => ({
                borderRadius: 4,
                margin: "0px 4px",
           },
+          "& .react-calendar__tile--rangeStart": {
+               backgroundColor: "#00a99d",
+               borderRadius: "4px 0px 0px 4px !important",
+          },
      },
 }));

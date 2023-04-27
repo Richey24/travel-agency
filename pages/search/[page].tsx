@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Pagebanner } from "../../components/PageBanner/Pagebanner";
 import { Breadcumbs } from "../../components/Breadcumbs/Breadcumbs";
 import { FilterContainer } from "../../components/FilterContainer/FilterContainer";
-import Script from "next/script";
 import { useSetRouteName } from "../../redux/appState/hooks";
 import { MapContainer } from "../../components/MapContainer/MapContainer";
 import { Scheduler } from "../../components/Scheduler/Scheduler";
 import { useRouter } from "next/router";
-import { SearchParams } from "../../components/Scheduler/types";
+import { Coordinates, SearchParams } from "../../components/Scheduler/types";
+import { Tabs } from "../../components/Tabs/Tabs";
+import { LocationSearch } from "../../components/Locations/Locations";
+import axios, { AxiosError } from "axios";
+import { toast } from "react-toastify";
+import _ from "lodash";
 const paths = [{ name: "Home", url: "/" }, { name: "Search", url: "/" }, { name: "Hotels" }];
 
 const Search = () => {
@@ -20,8 +24,25 @@ const Search = () => {
           setRoute("pages");
      });
 
-     const handleSearch = (data: SearchParams) => {
-          setSearchParams(data);
+     const handleSearch = async (data: SearchParams, coordinates: Coordinates) => {
+          if (coordinates) {
+               try {
+                    const response = await axios.post(
+                         "/api/hotels/list",
+                         { coordinates },
+                         {
+                              headers: {
+                                   "Content-Type": "application/json",
+                              },
+                         },
+                    );
+                    console.log("response", response.data);
+               } catch (err) {
+                    toast.error(_.capitalize((err as any).response?.data?.message));
+                    console.log("err now", (err as any).response?.data?.message);
+               }
+          }
+          // setSearchParams(data);
      };
 
      return (
@@ -29,6 +50,9 @@ const Search = () => {
                <div id="main" style={{ overflow: "unset" }}>
                     {!searchParams && <Pagebanner />}
                     <Breadcumbs paths={paths} />
+                    {searchParams && <Tabs />}
+                    {/* <LocationSearch /> */}
+
                     {!searchParams && (
                          <Scheduler
                               initialTab={page === "hotels" ? 1 : 2}

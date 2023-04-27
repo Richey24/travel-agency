@@ -20,6 +20,8 @@ import "../styles/font-awesome.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 // import "../styles/smoothness/jquery-ui-1.10.0.custom.css";
 import "react-calendar/dist/Calendar.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -137,6 +139,7 @@ export default function App({
                               <CssBaseline />
                               <Layout>
                                    <Component {...pageProps} />
+                                   <ToastContainer />
                                    {/* <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" /> */}
                                    {/* <Script
                                         src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.js"

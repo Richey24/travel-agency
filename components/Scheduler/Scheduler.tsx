@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import { useSchedulerStyles } from "./styles";
 import CreatableSelect from "react-select/creatable";
 import { Button } from "@mui/material";
-import { SchedulerProps, SearchParams } from "./types";
+import { Coordinates, SchedulerProps, SearchParams } from "./types";
 import Calendar from "react-calendar";
 import { Value } from "react-calendar/dist/cjs/shared/types";
 import { MdFlight } from "react-icons/md";
@@ -11,6 +11,12 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { TfiControlForward, TfiControlBackward } from "react-icons/tfi";
 import moment from "moment";
 import { Settings } from "./components/Settings/Settings";
+import _ from "lodash";
+import axios from "axios";
+
+const access_token =
+     process.env.REACT_APP_MAPBOX_KEY ??
+     "pk.eyJ1IjoidmlrdG9oIiwiYSI6ImNrcmpyamM1ZjA1ZG8ydnBjbWRpOWtjN2kifQ.auBvgsbud2l08nrj8lXZfg";
 
 const tabs = [
      {
@@ -25,29 +31,6 @@ const tabs = [
           ),
      },
      { name: "hotels", icon: <FaHotel size={25} /> },
-];
-
-const adults = [
-     {
-          value: "1",
-          label: "Room for 1 Adult",
-     },
-     {
-          value: "2",
-          label: "Room for 2 Adults",
-     },
-     {
-          value: "3",
-          label: "Room for 3 Adults",
-     },
-     {
-          value: "4",
-          label: "Room for 4 Adults",
-     },
-     {
-          value: "5",
-          label: "Room for 5 Adults",
-     },
 ];
 
 export const Scheduler: FC<SchedulerProps> = ({
@@ -68,6 +51,10 @@ export const Scheduler: FC<SchedulerProps> = ({
           children: 0,
           adults: 1,
      });
+     const [query, setQuery] = useState("");
+     const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
+     const [locations, setLocations] = useState<any[]>([]);
+     const [isFetchingLocations, setIsFetchingLocations] = useState(false);
 
      const handleDateChange = (date: Value) => {
           setDateRange(date as any[]);
@@ -80,7 +67,37 @@ export const Scheduler: FC<SchedulerProps> = ({
           setShowCalendar(false);
      };
 
-     console.log("date", dateRange);
+     const handleSearch = async (query: string) => {
+          try {
+               const response = await fetch(
+                    `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${access_token}`,
+               );
+               const data = await response.json();
+               setLocations(data?.features ?? []);
+               // const { lat, lng } = data.features[0].center;
+               // setCoordinates({ lat, lng });
+               setIsFetchingLocations(false);
+          } catch (error) {
+               setIsFetchingLocations(false);
+               console.error(error);
+          }
+     };
+
+     // console.log("date", dateRange);
+     const handleLocationSeach = (value: string) => {
+          setIsFetchingLocations(true);
+          setQuery(value);
+
+          if (value.length > 2) {
+               handleSearch(value);
+          } else {
+               setIsFetchingLocations(false);
+          }
+     };
+
+     const handleOnSearch = async () => {
+          if (coordinates) onClick?.(searchParams as SearchParams, coordinates as Coordinates);
+     };
 
      return (
           <>
@@ -122,10 +139,28 @@ export const Scheduler: FC<SchedulerProps> = ({
                          <div className={classes.form}>
                               <div className={classes.inputContainer}>
                                    <label>City or Hotel Name:</label>
-                                   <input
+                                   {/* <input
                                         className={classes.dateRangeInput}
                                         // onClick={() => setShowCalendar((prev) => !prev)}
                                         placeholder="City or Hotel Name"
+                                   /> */}
+                                   <CreatableSelect
+                                        options={locations?.map((locations) => ({
+                                             label: locations?.place_name,
+                                             value: locations,
+                                        }))}
+                                        onChange={(value) => {
+                                             setQuery(value?.label || "");
+                                             const [lng, lat] = (value as any)?.value?.center;
+                                             setCoordinates({ lat, lng });
+                                             console.log("value", value, lat, lng);
+                                        }}
+                                        className={`react-select ${classes.select}`}
+                                        classNamePrefix="select"
+                                        placeholder={"Choose Location"}
+                                        onInputChange={(value) => handleLocationSeach(value)}
+                                        isLoading={isFetchingLocations}
+                                        value={{ label: query !== "" ? query : "default" }}
                                    />
                               </div>
 
@@ -204,7 +239,7 @@ export const Scheduler: FC<SchedulerProps> = ({
                               <div className={classes.inputContainer}>
                                    <Button
                                         className={classes.searchBtn}
-                                        onClick={() => onClick?.(searchParams as SearchParams)}
+                                        onClick={() => handleOnSearch()}
                                         disabled={!searchParams}
                                         style={{ opacity: !searchParams ? 0.6 : 1 }}
                                    >
