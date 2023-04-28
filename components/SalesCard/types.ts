@@ -3,4 +3,5 @@ export interface SalesCardProps {
      country: string;
      price: number | string;
      image: string;
+     handleDetails: () => void;
 }

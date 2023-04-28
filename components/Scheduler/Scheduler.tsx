@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import { useSchedulerStyles } from "./styles";
 import CreatableSelect from "react-select/creatable";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { Coordinates, SchedulerProps, SearchParams } from "./types";
 import Calendar from "react-calendar";
 import { Value } from "react-calendar/dist/cjs/shared/types";
@@ -55,6 +55,7 @@ export const Scheduler: FC<SchedulerProps> = ({
      const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
      const [locations, setLocations] = useState<any[]>([]);
      const [isFetchingLocations, setIsFetchingLocations] = useState(false);
+     const [loading, setLoading] = useState(false);
 
      const handleDateChange = (date: Value) => {
           setDateRange(date as any[]);
@@ -96,9 +97,13 @@ export const Scheduler: FC<SchedulerProps> = ({
      };
 
      const handleOnSearch = async () => {
-          if (coordinates) onClick?.(searchParams as SearchParams, coordinates as Coordinates);
+          setShowCalendar(false);
+          setShowSettings(false);
+          if (coordinates)
+               onClick?.(searchParams as SearchParams, coordinates as Coordinates, setLoading);
      };
 
+     console.log("searchParams?.nameOrCity", searchParams);
      return (
           <>
                <div className={classes.container}>
@@ -151,16 +156,33 @@ export const Scheduler: FC<SchedulerProps> = ({
                                         }))}
                                         onChange={(value) => {
                                              setQuery(value?.label || "");
+                                             setSearchParams((params) =>
+                                                  params
+                                                       ? {
+                                                              ...params,
+                                                              nameOrCity: value?.label || "",
+                                                         }
+                                                       : {
+                                                              nameOrCity: value?.label || "",
+                                                              dateRange: [],
+                                                              numOfAdults: 1,
+                                                         },
+                                             );
                                              const [lng, lat] = (value as any)?.value?.center;
                                              setCoordinates({ lat, lng });
-                                             console.log("value", value, lat, lng);
                                         }}
                                         className={`react-select ${classes.select}`}
                                         classNamePrefix="select"
                                         placeholder={"Choose Location"}
                                         onInputChange={(value) => handleLocationSeach(value)}
                                         isLoading={isFetchingLocations}
-                                        value={{ label: query !== "" ? query : "default" }}
+                                        value={{
+                                             label:
+                                                  searchParams?.nameOrCity &&
+                                                  searchParams?.nameOrCity !== ""
+                                                       ? searchParams?.nameOrCity
+                                                       : "City Name",
+                                        }}
                                    />
                               </div>
 
@@ -240,10 +262,10 @@ export const Scheduler: FC<SchedulerProps> = ({
                                    <Button
                                         className={classes.searchBtn}
                                         onClick={() => handleOnSearch()}
-                                        disabled={!searchParams}
+                                        disabled={!searchParams || loading}
                                         style={{ opacity: !searchParams ? 0.6 : 1 }}
                                    >
-                                        Search
+                                        {loading ? <CircularProgress size={23} /> : "Search"}
                                    </Button>
                               </div>
                          </div>

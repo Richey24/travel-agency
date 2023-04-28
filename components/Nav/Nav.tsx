@@ -24,16 +24,20 @@ export const Nav: FC<any> = () => {
                               <header>
                                    <div className="logo_wrapper">
                                         <Link href="/">
-                                        <div
-                                             className={"logo"}
-                                             style={{
-                                                  width: 200,
-                                                  height: 50,
-                                                  marginTop: 20,
-                                             }}
-                                        >
-                                             <Image src={logo} alt="" className="img-responsive " />
-                                        </div>
+                                             <div
+                                                  className={"logo"}
+                                                  style={{
+                                                       width: 200,
+                                                       height: 50,
+                                                       marginTop: 20,
+                                                  }}
+                                             >
+                                                  <Image
+                                                       src={logo}
+                                                       alt=""
+                                                       className="img-responsive "
+                                                  />
+                                             </div>
                                         </Link>
                                    </div>
                               </header>
@@ -75,11 +79,18 @@ export const Nav: FC<any> = () => {
                                                                                      {(
                                                                                           sub as any
                                                                                      )?.subMenu?.map(
-                                                                                          (navMenu: {
-                                                                                               path: string;
-                                                                                               name: string;
-                                                                                          }) => (
-                                                                                               <li>
+                                                                                          (
+                                                                                               navMenu: {
+                                                                                                    path: string;
+                                                                                                    name: string;
+                                                                                               },
+                                                                                               idx,
+                                                                                          ) => (
+                                                                                               <li
+                                                                                                    key={
+                                                                                                         idx
+                                                                                                    }
+                                                                                               >
                                                                                                     <Link
                                                                                                          href={
                                                                                                               navMenu?.path

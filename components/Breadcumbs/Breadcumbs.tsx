@@ -7,10 +7,12 @@ export const Breadcumbs: FC<BreadcumbsProps> = ({ paths }) => {
           <div className="breadcrumbs1_wrapper">
                <div className="container">
                     <div className="breadcrumbs1">
-                         {paths.map((path) =>
+                         {paths.map((path, idx) =>
                               path?.url ? (
                                    <>
-                                        <Link href={path?.url}>{path?.name}</Link>
+                                        <Link href={path?.url} key={idx}>
+                                             {path?.name}
+                                        </Link>
                                         <span>/</span>
                                    </>
                               ) : (

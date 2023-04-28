@@ -16,6 +16,10 @@ import Link from "next/link";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { RootStateProps } from "../../redux/types";
+import { toast } from "react-toastify";
+import { OffersField } from "../../redux/hotels/types";
+import getSymbolFromCurrency from "currency-symbol-map";
+import moment from "moment";
 
 mapboxgl.accessToken =
      process.env.REACT_APP_MAPBOX_KEY ??
@@ -42,61 +46,46 @@ export const Map = () => {
      const pointsMap = usePointsMap();
      const [zoom, setZoom] = useState(8);
      const [open, setOpen] = useState(false);
-     const [mapFeature, setMapFeature] = useState<
-          | {
-                 type: string;
-                 properties: {
-                      title: string;
-                      description: string;
-                 };
-                 geometry: {
-                      coordinates: number[];
-                      type: string;
-                 };
-            }
-          | any
-     >({
-          type: "Feature",
-          properties: {
-               title: "Grant Start",
-               description:
-                    "A downtown park that is the site of many of Chicago's favorite festivals and events",
-          },
-          geometry: {
-               coordinates: [-87.619185, 41.876367],
-               type: "Point",
-          },
-     });
+     const [selectedOffer, setSelectedOffer] = useState<OffersField | null>();
      const map = useRef<any>(null);
      const [markers, setMarkers] = useState<any[]>([]);
      const appState = useSelector((state: RootStateProps) => state.appStateReducer);
+     const hotelStore = useSelector((state: RootStateProps) => state.hotelReducer);
+     const offers = hotelStore.hotelOffers;
+     // console.log("offers", selectedOffer);
 
-     // console.log("appState", appState, markers);
      useEffect(() => {
-          if (map.current) return; // initialize map only once
-          map.current = new mapboxgl.Map({
-               container: mapContainer.current as HTMLElement,
-               style: "mapbox://styles/mapbox/streets-v12",
-               center: [mapFeature.geometry.coordinates[0], mapFeature.geometry.coordinates[1]],
-               zoom: zoom,
-          });
-
-          const geocoder = new MapboxGeocoder({
-               accessToken: mapboxgl.accessToken,
-               mapboxgl: mapboxgl,
-          });
-
-          locations.features
-               // .filter((feature) =>
-               //      feature?.properties.title
-               //           .toLowerCase()
-               //           .startsWith(appState.mapParams.name?.toLowerCase()),
-               // )
-               .forEach((feature) => {
-                    setMarkers((markers) => [...markers, pointsMap(map, feature, markerClicked)]);
+          if (offers) {
+               if (map.current) return; // initialize map only once
+               map.current = new mapboxgl.Map({
+                    container: mapContainer.current as HTMLElement,
+                    style: "mapbox://styles/mapbox/streets-v12",
+                    center: [offers[0].hotel.longitude, offers[0].hotel.latitude],
+                    zoom: zoom,
                });
-          map.current.addControl(new mapboxgl.NavigationControl(), "bottom-right");
-          map.current.addControl(geocoder, "top-right");
+
+               const geocoder = new MapboxGeocoder({
+                    accessToken: mapboxgl.accessToken,
+                    mapboxgl: mapboxgl,
+               });
+
+               offers
+                    // .filter((feature) =>
+                    //      feature?.properties.title
+                    //           .toLowerCase()
+                    //           .startsWith(appState.mapParams.name?.toLowerCase()),
+                    // )
+                    .forEach((offer) => {
+                         setMarkers((markers) => [
+                              ...markers,
+                              pointsMap(map, offer, markerClicked),
+                         ]);
+                    });
+               map.current.addControl(new mapboxgl.NavigationControl(), "bottom-right");
+               map.current.addControl(geocoder, "top-right");
+          } else {
+               toast.error("No Offers Available");
+          }
      }, []);
 
      useEffect(() => {
@@ -116,34 +105,34 @@ export const Map = () => {
           });
      }, [appState.mapParams.name]);
 
-     useEffect(() => {
-          if (!map.current) return;
-          map.current.on("move", () => {
-               setMapFeature((mapFeature: any) => {
-                    return {
-                         ...mapFeature,
-                         geometry: {
-                              ...mapFeature.geometry,
-                              coordinates: [
-                                   map.current.getCenter().lng.toFixed(4),
-                                   map.current.getCenter().lat.toFixed(4),
-                              ],
-                         },
-                    };
-               });
+     // useEffect(() => {
+     //      if (!map.current) return;
+     //      map.current.on("move", () => {
+     //           setMapFeature((mapFeature: any) => {
+     //                return {
+     //                     ...mapFeature,
+     //                     geometry: {
+     //                          ...mapFeature.geometry,
+     //                          coordinates: [
+     //                               map.current.getCenter().lng.toFixed(4),
+     //                               map.current.getCenter().lat.toFixed(4),
+     //                          ],
+     //                     },
+     //                };
+     //           });
 
-               setZoom(map.current.getZoom().toFixed(2));
-          });
-     }, [map.current]);
+     //           setZoom(map.current.getZoom().toFixed(2));
+     //      });
+     // }, [map.current]);
 
-     const markerClicked = (feature: any, coordinates: number[], setLoading: any) => {
+     const markerClicked = (offer: OffersField, setLoading: any) => {
           console.log("hi");
           // setLoading(false);
           // fatchWeather(coordinates[0], coordinates[1], (response) => {
           //      if (response) {
           //           updateWeatherData(response);
           //      }
-          setMapFeature(feature);
+          setSelectedOffer(offer);
           setTimeout(() => {
                setLoading(false);
                setOpen(true);
@@ -153,6 +142,13 @@ export const Map = () => {
 
      const handleClose = () => {
           setOpen(false);
+     };
+
+     const dateDiff = (from: string, to: string) => {
+          const date1 = moment(from);
+          const date2 = moment(to);
+
+          return date2.diff(date1, "days");
      };
 
      return (
@@ -169,7 +165,7 @@ export const Map = () => {
                                              className={classes.titleImage}
                                         />
                                         <div className={classes.titleDetailsContainer}>
-                                             <p>2bedroom Shortlet apartments wuse 2</p>
+                                             <p>{selectedOffer?.hotel.name}</p>
                                              <div className={classes.titleIconsContainer}>
                                                   <AiOutlineLike className={classes.icon} />
                                                   <CiCircleRemove
@@ -185,15 +181,32 @@ export const Map = () => {
                                              <p className={classes.subTitle}>
                                                   Two-Bedroom Apartment
                                              </p>
-                                             <p>5 nights, 2 adults</p>
-                                             <div className={classes.price}>NGN 161,263</div>{" "}
+                                             <p>
+                                                  {dateDiff(
+                                                       selectedOffer?.offers[0]
+                                                            .checkInDate as string,
+                                                       selectedOffer?.offers[0]
+                                                            .checkOutDate as string,
+                                                  )}{" "}
+                                                  nights, {selectedOffer?.offers[0].guests.adults}{" "}
+                                                  adults
+                                             </p>
+                                             <div className={classes.price}>
+                                                  {getSymbolFromCurrency(
+                                                       selectedOffer?.offers[0].price.currency ||
+                                                            "USD",
+                                                  ) ?? "$"}{" "}
+                                                  {selectedOffer?.offers[0].price.total}
+                                             </div>{" "}
                                              <div>Includes taxes and fees</div>
                                              <span className={classes.cancellation}>
                                                   Free cancellation
                                              </span>
                                         </div>
                                         <div>
-                                             <Link href={"/booking/hotel"}>
+                                             <Link
+                                                  href={`/booking/hotel/${selectedOffer?.hotel.hotelId}`}
+                                             >
                                                   <Button
                                                        variant="outlined"
                                                        className={classes.viewMoreBtn}
@@ -205,36 +218,8 @@ export const Map = () => {
                                    </div>
                                    <div className={classes.divider} />
 
-                                   <div>2 Wuse Market Road, Wuse</div>
+                                   <div>{selectedOffer?.offers[0].room.description.text}</div>
                               </div>
-                              {/* <div>
-                                   <h1 className={classes.modalTitle}>
-                                        {_.capitalize(mapFeature?.properties?.title)}
-                                   </h1>
-                                   <div className={classes.modalTemperature}>
-                                        {mapFeature?.properties?.description}
-                                   </div>
-                                   {/* <div>
-                                        min -{" "}
-                                        {(weatherData?.main?.temp_min - 273.15).toFixed(2) ?? 0}°C
-                                        {"   "}
-                                        max -{" "}
-                                        {(weatherData?.main?.temp_max - 273.15).toFixed(2) ?? 0}°C
-                                   </div> */}
-                              {/* <Link href={""}>
-                                        <Button variant="outlined">View More</Button>
-                                   </Link> */}
-                              {/* </div> */}
-                              {/* <span className={classes.iconContainer}> */}
-                              {/* {icon("")} */}
-                              {/* <img
-                                        src={`http://openweathermap.org/img/w/${weatherData?.weather?.[0]?.icon}.png`}
-                                        alt=""
-                                        width={150}
-                                        height={150}
-                                   /> */}
-                              {/* {weatherData?.weather?.[0]?.main} */}
-                              {/* </span> */}
                          </div>
                     </Box>
                </Modal>

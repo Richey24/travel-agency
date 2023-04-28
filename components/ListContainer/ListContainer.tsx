@@ -4,8 +4,30 @@ import { PassangerFilter } from "../PassangerFilter/PassangerFilter";
 import { data } from "./data";
 import { SalesCard } from "../SalesCard/SalesCard";
 import { Pagination } from "../Pagination/Pagination";
+import { useSelector } from "react-redux";
+import { RootStateProps } from "../../redux/types";
+import getSymbolFromCurrency from "currency-symbol-map";
+import { useRouter } from "next/router";
+import CreatableSelect from "react-select/creatable";
+import { useListContainerStyles } from "./styles";
 
-export const ListContainer = () => {
+export const ListContainer = ({ pageType }: { pageType: string }) => {
+     const hotelStore = useSelector((state: RootStateProps) => state.hotelReducer);
+     const hotelOffers = hotelStore.hotelOffers;
+     const router = useRouter();
+     const classes = useListContainerStyles();
+
+     const dataList = () => {
+          if (pageType === "hotels") {
+               return hotelOffers;
+          }
+          return [];
+     };
+
+     const handleDetails = (hotelId: string) => {
+          router.push(`/booking/hotel/${hotelId}`);
+     };
+
      return (
           <div id="content">
                <div className="container">
@@ -32,66 +54,37 @@ export const ListContainer = () => {
                               <Qoute />
                          </div>
                          <div className="col-sm-9">
-                              <form action="javascript:;" className="form3 clearfix">
+                              <form
+                                   action="javascript:;"
+                                   className={`form3 clearfix ${classes.sortContainer}`}
+                              >
                                    <div className="select1_wrapper txt">
                                         <label>Sort by:</label>
                                    </div>
-                                   <div className="select1_wrapper sel">
-                                        <div className="select1_inner">
-                                             <select
-                                                  className="select2 select"
-                                                  style={{
-                                                       width: "100%",
-                                                  }}
-                                             >
-                                                  <option value={1}>Name</option>
-                                                  <option value={2}>Name2</option>
-                                                  <option value={2}>Name3</option>
-                                             </select>
-                                        </div>
-                                   </div>
-                                   <div className="select1_wrapper sel">
-                                        <div className="select1_inner">
-                                             <select
-                                                  className="select2 select"
-                                                  style={{
-                                                       width: "100%",
-                                                  }}
-                                             >
-                                                  <option value={1}>Price</option>
-                                                  <option value={2}>Price2</option>
-                                                  <option value={2}>Price3</option>
-                                             </select>
-                                        </div>
-                                   </div>
-                                   <div className="select1_wrapper sel">
-                                        <div className="select1_inner">
-                                             <select
-                                                  className="select2 select"
-                                                  style={{
-                                                       width: "100%",
-                                                  }}
-                                             >
-                                                  <option value={1}>Raiting</option>
-                                                  <option value={2}>Raiting2</option>
-                                                  <option value={2}>Raiting3</option>
-                                             </select>
-                                        </div>
-                                   </div>
-                                   <div className="select1_wrapper sel">
-                                        <div className="select1_inner">
-                                             <select
-                                                  className="select2 select"
-                                                  style={{
-                                                       width: "100%",
-                                                  }}
-                                             >
-                                                  <option value={1}>Popularity</option>
-                                                  <option value={2}>Popularity2</option>
-                                                  <option value={2}>Popularity3</option>
-                                             </select>
-                                        </div>
-                                   </div>
+                                   <CreatableSelect
+                                        options={[]}
+                                        className={`react-select ${classes.select}`}
+                                        classNamePrefix="select"
+                                        placeholder={"Name"}
+                                   />
+                                   <CreatableSelect
+                                        options={[]}
+                                        className={`react-select ${classes.select}`}
+                                        classNamePrefix="select"
+                                        placeholder={"Price"}
+                                   />
+                                   <CreatableSelect
+                                        options={[]}
+                                        className={`react-select ${classes.select}`}
+                                        classNamePrefix="select"
+                                        placeholder={"Rating"}
+                                   />
+                                   <CreatableSelect
+                                        options={[]}
+                                        className={`react-select ${classes.select}`}
+                                        classNamePrefix="select"
+                                        placeholder={"Popularity"}
+                                   />
                                    <div className="select1_wrapper buttons">
                                         <a href="#" className="btn-default s1" />
                                         <a href="#" className="btn-default s2" />
@@ -99,9 +92,22 @@ export const ListContainer = () => {
                                    </div>
                               </form>
                               <div className="row">
-                                   {data.map((item, idx) => (
+                                   {dataList()?.map((item, idx) => (
                                         <div className="col-sm-4" key={idx}>
-                                             <SalesCard {...item} />
+                                             <SalesCard
+                                                  city={item.hotel.name}
+                                                  image={"http://placehold.it/262x171"}
+                                                  price={`${
+                                                       getSymbolFromCurrency(
+                                                            item?.offers[0].price.currency || "USD",
+                                                       ) ?? "$"
+                                                  }
+                              ${item?.offers[0].price.total.toString() || 0}`}
+                                                  country=""
+                                                  handleDetails={() =>
+                                                       handleDetails(item.hotel.hotelId)
+                                                  }
+                                             />
                                         </div>
                                    ))}
                               </div>

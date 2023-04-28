@@ -15,7 +15,7 @@ const Aboutus = () => {
 
      useEffect(() => {
           setRoute("about us");
-     });
+     },[]);
 
      return (
           <div className="not-front page-about">

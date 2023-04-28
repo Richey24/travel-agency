@@ -1,6 +1,10 @@
 export interface SchedulerProps {
      initialTab?: number;
-     onClick?: (data: SearchParams, coordinates: Coordinates) => void;
+     onClick?: (
+          data: SearchParams,
+          coordinates: Coordinates,
+          setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+     ) => void;
      hotelsOnly?: boolean;
      flightsOnly?: boolean;
      onTabSwitch?: (tab: string) => void;

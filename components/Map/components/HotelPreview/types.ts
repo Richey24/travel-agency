@@ -1,3 +1,5 @@
+import { OffersField } from "../../../../redux/hotels/types";
+
 export interface HotelPreviewProps {
-     name: string | null;
+     offer: OffersField;
 }

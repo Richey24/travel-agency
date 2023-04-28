@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { SalesCardProps } from "./types";
 
-export const SalesCard: FC<SalesCardProps> = ({ city, country, price, image }) => {
+export const SalesCard: FC<SalesCardProps> = ({ city, country, price, image, handleDetails }) => {
      return (
           <div className="thumb4">
                <div className="thumbnail clearfix">
@@ -17,10 +17,8 @@ export const SalesCard: FC<SalesCardProps> = ({ city, country, price, image }) =
                                    <div className="price">{price}</div>
                                    <div className="nums">avg/person</div>
                               </div>
-                              <div className="right_side">
-                                   <a href="search-flights.html" className="btn-default btn1">
-                                        Details
-                                   </a>
+                              <div className="right_side" onClick={handleDetails}>
+                                   <a className="btn-default btn1">Details</a>
                               </div>
                          </div>
                     </div>

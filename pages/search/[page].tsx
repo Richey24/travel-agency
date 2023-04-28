@@ -12,6 +12,9 @@ import { LocationSearch } from "../../components/Locations/Locations";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import _ from "lodash";
+import { RootStateProps } from "../../redux/types";
+import { useSelector } from "react-redux";
+import { useGetHotelOffers } from "../../redux/hotels/hooks";
 const paths = [{ name: "Home", url: "/" }, { name: "Search", url: "/" }, { name: "Hotels" }];
 
 const Search = () => {
@@ -19,50 +22,45 @@ const Search = () => {
      const [searchParams, setSearchParams] = useState<SearchParams | null>();
      const router = useRouter();
      const { page } = router.query;
+     const hotelStore = useSelector((state: RootStateProps) => state.hotelReducer);
+     const getHotelOffers = useGetHotelOffers();
+     const [showMap, setShowMap] = useState(false);
+
+     console.log("hotelStore", hotelStore);
 
      useEffect(() => {
           setRoute("pages");
-     });
-
-     const handleSearch = async (data: SearchParams, coordinates: Coordinates) => {
-          if (coordinates) {
-               try {
-                    const response = await axios.post(
-                         "/api/hotels/list",
-                         { coordinates },
-                         {
-                              headers: {
-                                   "Content-Type": "application/json",
-                              },
-                         },
-                    );
-                    console.log("response", response.data);
-               } catch (err) {
-                    toast.error(_.capitalize((err as any).response?.data?.message));
-                    console.log("err now", (err as any).response?.data?.message);
-               }
+          if(hotelStore.hotelOffers){
+               setShowMap(true)
           }
-          // setSearchParams(data);
+     }, []);
+
+     const handleSearch = async (
+          data: SearchParams,
+          coordinates: Coordinates,
+          setLoading?: React.Dispatch<React.SetStateAction<boolean>>,
+     ) => {
+          if (coordinates) {
+               getHotelOffers(data, coordinates, setLoading, () => setShowMap(true));
+          }
      };
 
      return (
           <div className="not-front page-post page-about">
                <div id="main" style={{ overflow: "unset" }}>
-                    {!searchParams && <Pagebanner />}
+                    {!showMap && <Pagebanner />}
                     <Breadcumbs paths={paths} />
-                    {searchParams && <Tabs />}
+                    {showMap && <Tabs />}
                     {/* <LocationSearch /> */}
 
-                    {!searchParams && (
+                    {!showMap && (
                          <Scheduler
                               initialTab={page === "hotels" ? 1 : 2}
                               onClick={handleSearch}
                               hotelsOnly
                          />
                     )}
-                    {searchParams && (
-                         <MapContainer backBtnClick={() => setSearchParams(null)} backBtn />
-                    )}
+                    {showMap && <MapContainer backBtnClick={() => setSearchParams(null)} backBtn />}
                     {/* <div style={{ marginTop: 16 }}></div> */}
                     {/* <FilterContainer /> */}
                </div>

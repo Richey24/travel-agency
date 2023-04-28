@@ -13,6 +13,7 @@ export const useTabStyles = makeStyles(() => ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          gap: 8,
      },
      btn: {
           border: "!px solid red !important",

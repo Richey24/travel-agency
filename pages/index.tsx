@@ -13,7 +13,7 @@ export default function Home() {
      
      useEffect(() => {
           setRoute("Home");
-     });
+     },[]);
 
      return (
           <div className={styles.container}>

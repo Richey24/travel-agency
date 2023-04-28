@@ -6,8 +6,9 @@ import { GrLocationPin } from "react-icons/gr";
 import { CircularProgress } from "@mui/material";
 import { FaHotel } from "react-icons/fa";
 import { HotelPreview } from "../Map/components/HotelPreview/HotelPreview";
+import getSymbolFromCurrency from "currency-symbol-map";
 
-export const Marker: FC<MarkerProps> = ({ onClick, children, feature }) => {
+export const Marker: FC<MarkerProps> = ({ onClick, children, offer }) => {
      const classes = useMarkerStyles();
      const [loading, setLoading] = useState(false);
      const [preview, setPreview] = useState(false);
@@ -33,12 +34,16 @@ export const Marker: FC<MarkerProps> = ({ onClick, children, feature }) => {
           >
                {!loading && (
                     <div className={classes.pointer}>
-                         <p className={classes.price}>$159</p>
+                         <p className={classes.price}>
+                              {getSymbolFromCurrency(offer?.offers[0].price.currency || "USD") ??
+                                   "$"}
+                              {offer?.offers[0].price.total.toString() || 0}
+                         </p>
                          <FaHotel size={25} color={"#00a99d"} />
                     </div>
                )}
                {loading && <CircularProgress />}
-               {preview && <HotelPreview name={feature?.properties?.title ?? null} />}
+               {preview && <HotelPreview offer={offer} />}
                {children}
           </div>
      );
