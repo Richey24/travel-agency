@@ -30,6 +30,12 @@ export function hotelReducer(state = hotelInitailState, action: HotelActionProps
                     ...action.payload,
                };
 
+          case "EMPTY_OFFERS_DATA":
+               return {
+                    ...state,
+                    hotelOffers: null,
+               };
+
           default:
                return state;
      }

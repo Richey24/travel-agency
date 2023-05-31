@@ -1,5 +1,5 @@
 export interface HotelActionProps {
-     type: "SET_ALL_HOTEL_DATA" | "SET_HOTEL_OFFERS";
+     type: "SET_ALL_HOTEL_DATA" | "SET_HOTEL_OFFERS" | "EMPTY_OFFERS_DATA";
      payload: string | any;
 }
 

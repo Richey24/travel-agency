@@ -71,3 +71,46 @@ export const useGetHotelOffers = () => {
           }
      };
 };
+
+export const useGetHotelImage = () => {
+     const dispatch = useCustomDispatch();
+
+     return async (setLoading?: React.Dispatch<React.SetStateAction<boolean>>) => {
+          try {
+               setLoading?.(true);
+               const response = await axios.post("/api/hotels/image/BRPARVDB");
+               setLoading?.(false);
+               // if (response.data.status) {
+               //      dispatch({
+               //           type: "SET_ALL_HOTEL_DATA",
+               //           payload: {
+               //                hotels: response.data?.data.hotels,
+               //                hotelOffers:
+               //                     response.data?.data.offers?.length > 0
+               //                          ? response.data?.data.offers
+               //                          : null,
+               //                hotelParams: {
+               //                     ...{
+               //                          ...data,
+               //                          dateRange: data.dateRange.map((date) =>
+               //                               moment(date).format("YYYY-MM-DD"),
+               //                          ),
+               //                     },
+               //                     ...coordinates,
+               //                },
+               //           },
+               //      });
+               //      if (response.data?.data.offers?.length === 0) {
+               //           toast.error("No Hotel Offer Available at the Selected Location");
+               //      } else {
+               //           ifOffers?.();
+               //      }
+               // }
+               // console.log("response", response.data);
+          } catch (err) {
+               setLoading?.(false);
+               toast.error(_.capitalize((err as any).response?.data?.message));
+               console.log("err now", (err as any).response?.data?.message);
+          }
+     };
+};
